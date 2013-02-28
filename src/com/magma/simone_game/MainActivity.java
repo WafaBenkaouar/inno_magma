@@ -3,9 +3,6 @@ package com.magma.simone_game;
 
 import java.io.IOException;
 
-import com.poetnerd.simonclone.SimonClone;
-
-
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -32,13 +29,12 @@ public class MainActivity extends Activity {
 
 	
 	 private Button redbutton ,bluebutton, greenbutton,  yellowbutton ;
+	
+	 private Simone_Game model;
+	
 	 static final private int NAO_ID = Menu.FIRST;
 	 static final private int REETI_ID = Menu.FIRST + 1;
 	 static final private int SETTINGS_ID = Menu.FIRST + 2;
-	 private Simone_Game model;
-	 private Robot myBot;
-	 public int robot_name = 1;
-	 
 	 
 	 private static final int LEVEL_DIALOG = 1;
 		private static final int GAME_DIALOG = 2;
@@ -134,14 +130,29 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case NAO_ID:
-            setNao();
+            model.setNao();
             return true;
         case REETI_ID:
-            setReeti();
+            model.setReeti();
             return true;
         case SETTINGS_ID:
             setRobot();
             return true;
+        case R.id.set_level:
+        	showDialog(LEVEL_DIALOG);
+        	return true;
+        case R.id.set_game:
+        	showDialog(GAME_DIALOG);
+        	return true;
+        case R.id.about:
+        	showDialog(ABOUT_DIALOG);
+        	return true;
+        case R.id.help:
+        	showDialog(HELP_DIALOG);
+        	return true;
+        case R.id.clear_longest:
+        	model.setLongest("");
+        	return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -269,7 +280,7 @@ public class MainActivity extends Activity {
     
     
 	public void setColor(String color) throws IOException{	
-		myBot.playColor(color);
+		model.myBot.playColor(color);
 	}
 	
 	public void setRobot(){
@@ -287,32 +298,12 @@ public class MainActivity extends Activity {
 	    protected void onDestroy() {
 	        super.onDestroy();
 	        try {
-				myBot.disconnectRobot();
+				model.myBot.disconnectRobot();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	    }
-	public void setReeti(){
-		try {
-			myBot = new MonReeti("reeti") ;
-		} catch (IOException e1) {
-			
-			e1.printStackTrace();
-		}
-		try {
-			myBot.say(" Bonjour");
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
-	}
-	public void setNao(){
-		try {
-				myBot = new MonNao("nao") ;
-		} catch (IOException e1) {			
-			e1.printStackTrace();
-		}
-		
-	}
+	
 	
 }

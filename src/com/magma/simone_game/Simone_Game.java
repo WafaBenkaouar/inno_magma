@@ -1,11 +1,13 @@
 package com.magma.simone_game;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import android.os.Handler;
 import android.os.Message;
+import android.view.Menu;
 
 
 
@@ -15,6 +17,11 @@ public class Simone_Game {
 	private static final boolean DISABLE_TIMEOUT = false;
 	private static final boolean TEST_RAZZ = false;
 	private static final boolean SHORT_GAME = false;
+	
+	
+	 
+	 public Robot myBot;
+	 public int robot_name = 1;
 	
 	/* Ideally we pause between lighting or beeping for 50ms or 20ms, but the system tick 
 	 * is observed to be 100ms.  To conform to people's intuition of how long things should be
@@ -454,6 +461,7 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 	}
 	public void gameLose() {
 		//doStream(soundIds[LOSE_SOUND]);
+		
 		if (theGame == 3) {   // In game 3 we eliminate a color and start again.
 			int activeColorCount = 0;
 			for (int i=0; i < 4; i++) {
@@ -680,6 +688,28 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 		for (Listener listener : listeners) {
 			listener.multipleButtonStateChanged();
 		}
+	}
+	
+	public void setReeti(){
+		try {
+			myBot = new MonReeti("reeti") ;
+		} catch (IOException e1) {
+			
+			e1.printStackTrace();
+		}
+		try {
+			myBot.say(" Bonjour");
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+	}
+	public void setNao(){
+		try {
+				myBot = new MonNao("nao") ;
+		} catch (IOException e1) {			
+			e1.printStackTrace();
+		}
+		
 	}
 	
 	public void dispose() {

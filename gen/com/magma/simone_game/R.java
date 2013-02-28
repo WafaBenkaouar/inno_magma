@@ -10,6 +10,8 @@ package com.magma.simone_game;
 public final class R {
     public static final class array {
         public static final int array=0x7f050000;
+        public static final int game_choices=0x7f050002;
+        public static final int level_choices=0x7f050001;
     }
     public static final class attr {
     }
@@ -38,12 +40,17 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
+        public static final int about=0x7f0b000a;
         public static final int bluebutton=0x7f0b0002;
+        public static final int clear_longest=0x7f0b000c;
         public static final int frame=0x7f0b0000;
         public static final int fullscreen_content_controls=0x7f0b0005;
         public static final int greenbutton=0x7f0b0004;
+        public static final int help=0x7f0b000b;
         public static final int password=0x7f0b0007;
         public static final int redbutton=0x7f0b0001;
+        public static final int set_game=0x7f0b0009;
+        public static final int set_level=0x7f0b0008;
         public static final int username=0x7f0b0006;
         public static final int yellowbutton=0x7f0b0003;
     }
@@ -82,15 +89,28 @@ public final class R {
         public static final int yellow_long=0x7f040018;
     }
     public static final class string {
+        public static final int about=0x7f080011;
         public static final int action_settings=0x7f080001;
         public static final int app_name=0x7f080000;
+        public static final int clear_longest=0x7f080012;
+        public static final int game=0x7f08000d;
         public static final int hello_world=0x7f080002;
+        public static final int help=0x7f080014;
         public static final int ip=0x7f080008;
+        public static final int last=0x7f08000a;
+        public static final int level=0x7f08000e;
+        public static final int long_about=0x7f080013;
+        public static final int long_help=0x7f080015;
+        public static final int longest=0x7f08000b;
         public static final int mon_robot=0x7f080005;
         public static final int nao=0x7f080007;
+        public static final int ok=0x7f080016;
         public static final int pick_robot=0x7f080003;
         public static final int port=0x7f080009;
         public static final int reeti=0x7f080006;
+        public static final int set_game=0x7f08000f;
+        public static final int set_level=0x7f080010;
+        public static final int start=0x7f08000c;
         public static final int title_activity_pick_robot=0x7f080004;
     }
     public static final class style {
