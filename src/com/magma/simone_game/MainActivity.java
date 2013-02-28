@@ -3,11 +3,17 @@ package com.magma.simone_game;
 
 import java.io.IOException;
 
+import com.poetnerd.simonclone.SimonClone;
+
+
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -19,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
@@ -28,25 +35,30 @@ public class MainActivity extends Activity {
 	 static final private int NAO_ID = Menu.FIRST;
 	 static final private int REETI_ID = Menu.FIRST + 1;
 	 static final private int SETTINGS_ID = Menu.FIRST + 2;
-
-	 public MainActivity(){}
+	 private Simone_Game model;
+	 private Robot myBot;
+	 public int robot_name = 1;
 	 
-	 // private static final int LOCAL_AUDIO = 1;
-	   // private static final int RESOURCES_AUDIO = 2;
-	   // private static final int YELLOW_SOUND = 4;
-	   // private static final int RED_SOUND = 1;
-	   // private static final int BLUE_SOUND = 2;
-	   // private static final int GREEN_SOUND = 3;
-	    Robot myBot;
-	  
-	  
-
-	   public int robot_name = 1;
-	   
+	 
+	 private static final int LEVEL_DIALOG = 1;
+		private static final int GAME_DIALOG = 2;
+		private static final int ABOUT_DIALOG = 3;
+		private static final int HELP_DIALOG = 4;
+		
+		private Menu mMenu;
+		private AlertDialog levelDialog;
+		private AlertDialog gameDialog;
+		private AlertDialog aboutDialog;
+		private AlertDialog helpDialog;
+		private TextView levelDisplay;
+		private TextView gameDisplay;
+	 
+	 public MainActivity(){}   
 	    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	
+		 model = new Simone_Game();
 		// gets sudo privilege
 		try {
 			Runtime.getRuntime().exec("su");
@@ -64,92 +76,22 @@ public class MainActivity extends Activity {
         ((Button) findViewById(R.id.greenbutton)).setOnClickListener(mGreenListener);
         ((Button) findViewById(R.id.yellowbutton)).setOnClickListener(mYellowListener);
 		
-			
-	/*	
-		redbutton = (Button) findViewById(R.id.redbutton);
-		bluebutton = (Button) findViewById(R.id.bluebutton);
-		greenbutton = (Button) findViewById(R.id.greenbutton);
-		yellowbutton = (Button) findViewById(R.id.yellowbutton);
-		
-		
-	
-		redbutton.setOnClickListener( new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				//playSample(R.raw.red_long);
-				 try {
-						myBot.play("red");
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-			}
-		});
-		
-		bluebutton.setOnClickListener( new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				 //playSample(R.raw.blue_long);
-				 try {
-				myBot.say(
-						//"tts.say(\" bleu\"),"
-						//"servo.changeLedColor(\"blue\"), "
-								"player.playSequence(\"/home/reeti/reetiDocuments/Sequences/Emotions/disgusted\")  "
-						//+"player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/blue_long.ogg\");"
-						);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		//Global.player.playSequence("/home/reeti/reetiDocuments/Sequences/Emotions/disgusted");
-		
-		greenbutton.setOnClickListener(  new View.OnClickListener() {
-			
-			@SuppressLint("ResourceAsColor")
-			@Override
-			public void onClick(View v) {
-				 //playSample(R.raw.green_long);
-				
-				 try {
-						myBot.say(
-								"tts.say(\" vert \");"
-								+"servo.changeLedColor(\"green\"), "
-							//	+"player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/green_long.ogg\");"
-								);
-						
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-			}
-		});
-		
-		yellowbutton.setOnClickListener( new View.OnClickListener() {
-			
-			@SuppressLint("ResourceAsColor")
-			@Override
-			public void onClick(View v) {
-				//playSample(R.raw.yellow_long);
-				
-				 try {
-						myBot.say(
-								"tts.say(\" jaune\");"
-							+	"servo.changeLedColor(\"yellow\"); "
-								//+"player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/yellow_long.ogg\");"
-								);
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-			}
-		});*/
-		
-		
+
+        
 	}
+	
+	@Override
+    protected void onPause () {
+    	super.onPause();
+    	SharedPreferences settings = getPreferences (0); // Private mode by default.
+    	SharedPreferences.Editor editor = settings.edit();
+    	
+    	editor.putInt(Simone_Game.KEY_GAME_LEVEL, model.getLevel());	// Game Level
+    	editor.putInt(Simone_Game.KEY_THE_GAME, model.getGame());	// The Game
+    	editor.putString(Simone_Game.KEY_LONGEST_SEQUENCE, model.getLongest());	// Longest match
+
+    	editor.commit();
+    }
 
 	 /**
      * Called when the activity is about to start interacting with the user.
@@ -204,8 +146,69 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 	
-    
    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+    	AlertDialog.Builder builder;
+    	switch (id) {
+    	case LEVEL_DIALOG:
+    		builder = new AlertDialog.Builder(this);
+    		builder.setTitle(R.string.set_level);
+            builder.setSingleChoiceItems(R.array.level_choices, model.getLevel() - 1, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	model.setLevel(whichButton + 1);
+                	levelDisplay.setText(String.valueOf(whichButton + 1));
+                }
+            });
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	levelDialog.dismiss();
+                }
+            });
+            levelDialog = builder.create();
+            return levelDialog;
+    	case GAME_DIALOG:
+    		builder = new AlertDialog.Builder(this);
+    		builder.setTitle(R.string.set_game);
+            builder.setSingleChoiceItems(R.array.game_choices, model.getGame() - 1, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	model.setGame(whichButton + 1);
+                	gameDisplay.setText(String.valueOf(whichButton + 1));
+                }
+            });
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	gameDialog.dismiss();
+                }
+            });
+            gameDialog = builder.create();
+            return gameDialog;
+    	case ABOUT_DIALOG:
+    		builder = new AlertDialog.Builder(this);
+    		builder.setTitle(R.string.about);
+    		builder.setMessage(R.string.long_about);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	aboutDialog.dismiss();
+                }
+            });
+            aboutDialog = builder.create();
+            return aboutDialog;
+    	case HELP_DIALOG:
+    		builder = new AlertDialog.Builder(this);
+    		builder.setTitle(R.string.help);
+    		builder.setMessage(R.string.long_help);
+            builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                	helpDialog.dismiss();
+                }
+            });
+            helpDialog = builder.create();
+            return helpDialog;
+    	default: return null;
+    	}
+    }
+    
     /**
      * A call-back for when the user presses the back button.
      */

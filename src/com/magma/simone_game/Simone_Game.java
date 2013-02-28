@@ -34,6 +34,11 @@ public class Simone_Game {
 	private static final int UI = 0;
 	private static final int TIMEOUT = 1;
 	
+	/* Keys for save and restore of game state */
+	public static final String KEY_THE_GAME = "theGame";
+	public static final String KEY_GAME_LEVEL = "gameLevel";
+	public static final String KEY_LONGEST_SEQUENCE = "longestSequence";
+
 	/* Game States for controlling action of update. */
 	private static final int IDLE = 0;
 	private static final int LISTENING = 1;
