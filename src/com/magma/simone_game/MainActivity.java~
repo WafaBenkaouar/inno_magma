@@ -1,0 +1,254 @@
+package com.magma.simone_game;
+
+
+import java.io.IOException;
+
+import liburbi.UClient;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.View;
+import android.widget.Button;
+
+
+public class Simon_main extends Activity{
+
+	 private  MediaPlayer mp ;
+	 private Button redbutton ,bluebutton, greenbutton,  yellowbutton ;
+	  private static final int LOCAL_AUDIO = 1;
+	    private static final int RESOURCES_AUDIO = 2;
+	    private static final int YELLOW_SOUND = 4;
+	    private static final int RED_SOUND = 1;
+	    private static final int BLUE_SOUND = 2;
+	    private static final int GREEN_SOUND = 3;
+	    UClient cli  ;
+	    private String path;
+	   
+	    private static final String IP_REETI = "10.42.43.1";
+		private static final String IP_NAO = "192.168.0.101";
+		private static final int PORT_REETI = 54001;
+		private static final int PORT_NAO = 54000;
+	    
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		try {
+			Runtime.getRuntime().exec("su");
+			cli = new UClient(IP_REETI, 54001, UClient.URBI_BUFLEN) ;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_simon_main);
+		
+		try {
+			cli.send("tts.say(\" rouge\");");
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		redbutton = (Button) findViewById(R.id.redbutton);
+		bluebutton = (Button) findViewById(R.id.bluebutton);
+		greenbutton = (Button) findViewById(R.id.greenbutton);
+		yellowbutton = (Button) findViewById(R.id.yellowbutton);
+		mp = new MediaPlayer();
+	
+		redbutton.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				//playSample(R.raw.red_long);
+				 try {
+						cli.send(
+								"tts.say(\" rouge\");"
+								//"servo.changeLedColor(\"red\"); "
+								//+"player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/red_long.ogg\");"
+								);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			}
+		});
+		
+		bluebutton.setOnClickListener( new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				 //playSample(R.raw.blue_long);
+				 try {
+				cli.send(
+						//"tts.say(\" bleu\"),"
+						//"servo.changeLedColor(\"blue\"), "
+								"player.playSequence(\"/home/reeti/reetiDocuments/Sequences/Emotions/disgusted\")  "
+						//+"player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/blue_long.ogg\");"
+						);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		//Global.player.playSequence("/home/reeti/reetiDocuments/Sequences/Emotions/disgusted");
+		
+		greenbutton.setOnClickListener(  new View.OnClickListener() {
+			
+			@SuppressLint("ResourceAsColor")
+			@Override
+			public void onClick(View v) {
+				 //playSample(R.raw.green_long);
+				
+				 try {
+						cli.send(
+								"tts.say(\" vert \");"
+								+"servo.changeLedColor(\"green\"), "
+							//	+"player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/green_long.ogg\");"
+								);
+						
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			}
+		});
+		
+		yellowbutton.setOnClickListener( new View.OnClickListener() {
+			
+			@SuppressLint("ResourceAsColor")
+			@Override
+			public void onClick(View v) {
+				//playSample(R.raw.yellow_long);
+				
+				 try {
+						cli.send(
+								"tts.say(\" jaune\");"
+							+	"servo.changeLedColor(\"yellow\"); "
+								//+"player.playMus(\"/home/reeti/reetiDocuments/Music/SimonGame/yellow_long.ogg\");"
+								);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			}
+		});
+		
+		
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.simon_main, menu);
+		return true;
+	}
+
+	
+	public void setColor(String color) throws IOException{	
+		cli.send("servo.changeLedColor(\""+color+"\") ; ");
+	}
+	
+	
+	 @Override
+	    protected void onDestroy() {
+	        super.onDestroy();
+	        // TODO Auto-generated method stub
+	        if (mp != null) {
+	            mp.release();
+	            mp = null;
+	        }
+	        cli.disconnect();
+	    }
+	
+	
+	/*
+	 * 
+	 public void OnClick(View v) {
+	    switch (v.getId()) {
+	      case R.id.redbutton: 
+	    	  playSample(R.raw.sound_screen_off);
+	        break;
+	      case R.id.bluebutton:
+	    	  playSample(R.raw.sound_window_state_changed);
+	        break;
+	      case R.id.yellowbutton:
+	    	  System.out.println("yellow");
+	    	  playSample(R.raw.sound_screen_on);
+	        break;
+	      case R.id.greenbutton:
+	    	  playSample(R.raw.sound_view_clicked);
+	        break;
+	      }
+	}
+
+	   private void playSample(int resid)
+	 {
+	     AssetFileDescriptor afd =   this.getResources().openRawResourceFd(resid);
+	         mp.reset();
+	         try {
+				mp.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getDeclaredLength());
+			
+	         mp.prepare();
+	         mp.start();
+	         
+	         afd.close();
+	         } catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	     
+	 }*/
+	 
+
+	 
+/*
+	  public void onClick(View v) {
+          if (v == redbutton) {
+              // Clicking on the play/pause button toggles its state.
+              playAudio(3);
+          } else if (v == bluebutton) {
+                  // Clicking on the play/pause button toggles its state.
+                  playAudio(3);
+    
+          }
+        	  else if (v == bluebutton) {
+                      playAudio(3);
+              }
+        	  else if (v == yellowbutton) {
+                  playAudio(3);
+          }
+        	  else if (v == greenbutton) {
+                  playAudio(3);
+          }
+      }
+	 /*
+
+	    
+	
+	/*public void playSong(View arg0) throws IllegalStateException, IOException{
+		mp.reset();
+		
+			mp.setDataSource("/system/media/audio/ui/Effect_Tick.ogg");
+		
+		mp.prepare();
+		mp.start();
+	
+	} 
+	
+	public void playSong1(View arg0) throws IllegalStateException, IOException{
+		mp.reset();
+		
+			mp.setDataSource("/system/media/audio/ui/Effect_Tick.ogg");
+		
+		mp.prepare();
+		mp.start();
+	
+	} */
+}

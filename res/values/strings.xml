@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Simone_Game</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="pick_robot">Choisissez un compagnon :</string>
+    <string name="title_activity_pick_robot">PickRobot</string>
+    <string name="mon_robot">reeti</string>
+    <string name="reeti">Reeti</string>
+    <string name="nao">Nao</string>
+    <string name="ip">10.42.13.1</string>
+    <string name="port">54001</string>
+
+</resources>

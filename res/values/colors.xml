@@ -1,0 +1,17 @@
+<resources>
+
+    
+    <color name="red">#ff0000</color>
+    <color name="blue">#1e90ff</color>
+    <color name="green">#008000</color>
+    <color name="yellow">#ffff00</color>
+    
+    <color name="redb">#CD5B45</color>
+    <color name="blueb">#97FFFF</color>
+    <color name="greenb">#43CD80</color>
+    <color name="yellowb">#CD950C</color>
+    
+    <color name="black_overlay">#66000000</color>
+    
+
+</resources>
