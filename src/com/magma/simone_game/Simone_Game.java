@@ -537,6 +537,12 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 			
 				switch (gameMode) {
 				case WON:
+					try {
+						myBot.playReaction(VICTORY_SOUND);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					/**
 					 * TODO
 					 * doStream(soundIds[VICTORY_SOUND]);
@@ -547,21 +553,46 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 					 * TODO
 					*doStream(soundIds[RED]);  // Play the red sound for win.
 					**/
+					try {
+						myBot.playReaction(RED);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					break;
 				case LOSING: 
 					/**
 					 * TODO
 					 * doStream(soundIds[LOSE_SOUND]);
 					 */
+					try {
+						myBot.playReaction(LOSE_SOUND);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					return;
 				case LISTENING: 
 					if (currentSequence[sequenceIndex] == index) // When we miss we barf immediately
 						
-						;/**
+						/**
 						 * TODO
 						 * doStream(soundIds[index]);
 						 */
-					else ;
+					try {
+						myBot.playReaction(index);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					else 
+						try {
+							myBot.playReaction(LOSE_SOUND);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						/**
 						 * TODO
 						 * doStream(soundIds[LOSE_SOUND]);
@@ -573,12 +604,24 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 						 * TODO
 						 * doStream(soundIds[index]);
 						 */
+						try {
+							myBot.playReaction(index);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					break;
 				default: 
 					/**
 					 * TODO
 					 * doStream(soundIds[index]);
 					 */
+					try {
+						myBot.playReaction(index);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					break;
 				}
 				for (Listener listener : listeners) {

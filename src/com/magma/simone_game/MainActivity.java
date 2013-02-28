@@ -134,6 +134,7 @@ public class MainActivity extends Activity {
             return true;
         case REETI_ID:
             model.setReeti();
+            model.gameStart();
             return true;
         case SETTINGS_ID:
             setRobot();

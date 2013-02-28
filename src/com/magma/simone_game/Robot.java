@@ -15,6 +15,14 @@ public abstract class Robot {
 	public  int PORT_REETI = 54001;
 	public String IP_DEFAULT = IP_REETI;
 	public  int PORT_DEFAULT = PORT_REETI;
+	public static final int GREEN = 0;
+	public static final int RED = 1;
+	public static final int YELLOW = 2;
+	public static final int BLUE = 3;
+	public static final int VICTORY_SOUND = 4;
+	public static final int LOSE_SOUND = 5;
+	public static final int SPECIAL_RAZZ = 6;
+	
 	
 	public String ip;
 	public Integer port;
@@ -86,6 +94,33 @@ public abstract class Robot {
 	 * @throws IOException
 	 */
 	abstract void playColor(String color) throws IOException;
+	
+	
+	public void playReaction(Integer rea) throws IOException {
+		switch (rea) {
+		case GREEN:
+			playColor("green");
+		break;
+		case RED:
+			playColor("red");
+			break;
+		case YELLOW:
+			playColor("yellow");
+			break;
+		case BLUE:
+			playColor("blue");
+			break;
+		case VICTORY_SOUND:
+			say("bravo");
+			break;
+		case LOSE_SOUND:
+			say("t'es nul");
+			break;
+		case  SPECIAL_RAZZ :
+			say(" razz");
+			break;	
+		}
+	}
 	
 	/**
 	 * changes the colors of the led of the robot
