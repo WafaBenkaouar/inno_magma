@@ -134,7 +134,7 @@ public class MainActivity extends Activity {
             return true;
         case REETI_ID:
             model.setReeti();
-            model.gameStart();
+model.gameStart();                                                         
             return true;
         case SETTINGS_ID:
             setRobot();
@@ -155,6 +155,7 @@ public class MainActivity extends Activity {
         	model.setLongest("");
         	return true;
         }
+        
         return super.onOptionsItemSelected(item);
     }
 	

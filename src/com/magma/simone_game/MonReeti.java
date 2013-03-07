@@ -8,7 +8,7 @@ import android.graphics.Color;
 
 public class MonReeti extends Robot{
 
-	public String IP_REETI = "129.88.50.112";
+	public String IP_REETI = "192.168.0.106";
 	public int PORT_REETI = 54001;
 	private UClient cli  ;
 	

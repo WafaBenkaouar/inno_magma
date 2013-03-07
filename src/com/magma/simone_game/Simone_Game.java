@@ -516,6 +516,12 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 			 * TODO
 			 * doStream(soundIds[LOSE_SOUND]);
 			 */
+			try {
+				myBot.playReaction(LOSE_SOUND);
+			} catch (IOException e1) {
+				
+				e1.printStackTrace();
+			}
 			if (theGame == 3) {		// Eliminate color that was pressed in game 3.
 				activeColors[buttonIndex] = false;
 			}
@@ -540,7 +546,6 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 					try {
 						myBot.playReaction(VICTORY_SOUND);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					/**
@@ -556,7 +561,6 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 					try {
 						myBot.playReaction(RED);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					break;
@@ -568,7 +572,6 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 					try {
 						myBot.playReaction(LOSE_SOUND);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					
@@ -583,14 +586,12 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 					try {
 						myBot.playReaction(index);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					else 
 						try {
 							myBot.playReaction(LOSE_SOUND);
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						/**
@@ -607,7 +608,6 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 						try {
 							myBot.playReaction(index);
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					break;
@@ -619,7 +619,6 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 					try {
 						myBot.playReaction(index);
 					} catch (IOException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					break;
@@ -689,6 +688,7 @@ private UpdateHandler mUpdateHandler = new UpdateHandler();
 						speakerStream = 0;
 						
 				} */
+				
 				for (Listener listener : listeners) {
 					listener.buttonStateChanged(index);
 				} 
