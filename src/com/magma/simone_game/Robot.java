@@ -11,7 +11,7 @@ public abstract class Robot {
 	
 	public String IP_NAO = "192.168.0.101";
 	public int PORT_NAO = 54000;
-	public String IP_REETI = "129.88.50.112";
+	public String IP_REETI = "192.168.0.106";
 	public  int PORT_REETI = 54001;
 	public String IP_DEFAULT = IP_REETI;
 	public  int PORT_DEFAULT = PORT_REETI;

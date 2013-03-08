@@ -87,6 +87,7 @@ public class SocketClient implements Runnable
 			}
 		catch (IOException e)
 			{
+			e.printStackTrace();
 			}
 
         defaultPort = 0;
@@ -241,6 +242,7 @@ public class SocketClient implements Runnable
 			}
 		catch (IOException e)
 			{
+			e.printStackTrace();
 			}
 		byteBuffer.flip();
 
